@@ -34,11 +34,11 @@ nvm install 20
 ```
 Verifies the right Node.js version is in the environment
 ```shell
-node -v # should print `v20.11.1`
+node -v # should print `v20.*.*`
 ```
 Verifies the right NPM version is in the environment
 ```shell
-npm -v # should print `10.2.4`
+npm -v # should print `10.*.*`
 ```
 1. Installing AOS
 
@@ -91,9 +91,6 @@ aos process:  1xM1_lDZ428sJHpTX7rtcR6SrDubyRVO06JEEWs_eWo
 
 aos>
 ```
-**You have executed your first aos process** 
-
-**To exit the aos process press ctrl+c**`
 **You have executed your first aos process** 
 
 **To exit the aos process press ctrl+c**
