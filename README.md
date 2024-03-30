@@ -206,9 +206,84 @@ Tags in aos messages are used to categorize, route, and process messages efficie
 ```shell
 Send({ Target = Morpheus, Data = "Code: rabbithole", Action = "Unlock" })
 ```
+### Step 7: Building a Chatroom
+1. Open VS Code and
+create a` chatroom.lua` file
 
+1. In chatroom.lua put : 
+```lua
+Members = Members or {}
+```
 
+1. Save the chatroom.lua file
 
+1.  Load the Chatroom into aos :
+```lua
+.load chatroom.lua
+```
+1. Creating chat room with functionalities: 
 
+Add following code in chatroom.lua:
+
+```lua
+  Handlers.add(
+    "Register",
+    Handlers.utils.hasMatchingTag("Action", "Register"),
+    function (msg)
+      table.insert(Members, msg.From)
+      Handlers.utils.reply("registered")(msg)
+    end
+  )
+```
+
+1. Save and reload in aos : 
+```lua
+.load chatroom.lua
+```
+Check if everything works correctly with this command : 
+    ```shell
+Handlers.list
+```
+- Registering ourselves to the chatroom :
+
+```shell
+ Send({ Target = ao.id, Action = "Register" })
+```
+
+-  Add the following code to the chatroom.lua file :
+
+```shell
+  Handlers.add(
+    "Broadcast",
+    Handlers.utils.hasMatchingTag("Action", "Broadcast"),
+    function (msg)
+      for _, recipient in ipairs(Members) do
+        ao.send({Target = recipient, Data = msg.Data})
+      end
+      Handlers.utils.reply("Broadcasted.")(msg)
+    end
+  )
+```
+- Save and reload :  
+
+```shell
+.load chatroom.lua
+```
+- Test : 
+```shell
+  Send({Target = ao.id, Action = "Broadcast", Data = "Hi!!" })
+```
+-  Inviting Morpheus to the Chatroom : 
+Type in the aos cli and then enter : 
+
+```shell
+Morpheus = "P2RS2VtQ4XtYEvAXYDulEA9pCBCIRpJDcakTR9aW434"
+```
+- Send Morpheus an invitation to join the chatroom : 
+```shell
+Send({ Target = Morpheus, Action = "Join" })
+```
+
+- Write `Members `in aos and enter
 
 
